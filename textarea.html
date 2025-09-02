@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Character Counter</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 350px;
+    }
+
+    textarea {
+      width: 90%;
+      height: 100px;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      resize: none;
+      font-size: 16px;
+      outline: none;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 14px;
+      font-weight: bold;
+      transition: color 0.3s ease-in-out;
+    }
+
+    span {
+      display: none;
+      color: #ff4b5c;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 5px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    span.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Progress bar styles */
+    .progress {
+      height: 8px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: green;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h2>Characters Count</h2>
+    <textarea id="textarea" maxlength="200"></textarea>
+    <p id="characters">(0/200 Characters)</p>
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <span id="max">Maximum Reached</span>
+  </div>
+
+  <script>
+    var textarea = document.getElementById("textarea")
+    var characters = document.getElementById("characters")
+    var max = document.getElementById("max")
+    var progressFill = document.getElementById("progressFill")
+    var maximum = 200
+
+    textarea.addEventListener("input", function () {
+      var length = textarea.value.length
+      characters.textContent = "(" + length + "/" + maximum + " Characters)"
+
+      // Progress bar fill %
+      var percent = (length / maximum) * 100
+      progressFill.style.width = percent + "%"
+
+      // Color logic
+      if (length <= 50) {
+        progressFill.style.background = "limegreen"
+        characters.style.color = "limegreen"
+      } else if (length <= 100) {
+        progressFill.style.background = "dodgerblue"
+        characters.style.color = "dodgerblue"
+      } else if (length <= 150) {
+        progressFill.style.background = "orange"
+        characters.style.color = "orange"
+      } else {
+        progressFill.style.background = "red"
+        characters.style.color = "red"
+      }
+
+      // Show/Hide Maximum Reached
+      if (length < maximum) {
+        max.classList.remove("show")
+      } else {
+        max.classList.add("show")
+        textarea.value = textarea.value.substring(0, maximum)
+      }
+    })
+  </script>
+
+</body>
+</html>
